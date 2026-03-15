@@ -7,6 +7,7 @@ pub struct Team {
     pub(crate) pot2_ops: [i32; 2],
     pub(crate) pot3_ops: [i32; 2],
     pub(crate) pot4_ops: [i32; 2],
+    pub(crate) rating: i32,
 }
 
 pub fn create_team(
@@ -17,6 +18,7 @@ pub fn create_team(
     pot2_ops: [i32; 2],
     pot3_ops: [i32; 2],
     pot4_ops: [i32; 2],
+    rating: i32,
 ) -> Team {
     let team = Team {
         id: id,
@@ -26,6 +28,7 @@ pub fn create_team(
         pot2_ops: pot2_ops,
         pot3_ops: pot3_ops,
         pot4_ops: pot4_ops,
+        rating: rating,
     };
 
     return team;

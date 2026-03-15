@@ -7,7 +7,7 @@ use std::fmt::Formatter;
 pub struct Fixture {
     pub(crate) team1: Team,
     pub(crate) team2: Team,
-    home_team_id: i32,
+    pub(crate) home_team_id: i32,
     legged_fixture: bool,
     leg: i32,
 }

@@ -11,20 +11,17 @@ pub fn simulate_knockout_phase() {
     println!("\nRound of 16:");
     let teams_vec: Vec<Team> = gen_teams(16);
     let fix_vec: Vec<Fixture> = gen_pairings(teams_vec, true);
-    print_fixtures(fix_vec.clone());
+    let q_teams: Vec<Team> = simulate_phase(fix_vec, true);
 
     println!("\nQuarter finals:");
-    let q_teams: Vec<Team> = simulate_phase(fix_vec, true);
     let fix_q_vec: Vec<Fixture> = gen_pairings(q_teams, true);
-    print_fixtures(fix_q_vec.clone());
+    let s_teams: Vec<Team> = simulate_phase(fix_q_vec, true);
 
     println!("\nSemi finals:");
-    let s_teams: Vec<Team> = simulate_phase(fix_q_vec, true);
     let fix_s_vec: Vec<Fixture> = gen_pairings(s_teams, true);
-    print_fixtures(fix_s_vec.clone());
+    let f_teams: Vec<Team> = simulate_phase(fix_s_vec, true);
 
     println!("\nFinals:");
-    let f_teams: Vec<Team> = simulate_phase(fix_s_vec, true);
     let fix_f_vec: Vec<Fixture> = gen_pairings(f_teams, false);
-    print_fixtures(fix_f_vec.clone());
+    let c_team: Vec<Team> = simulate_phase(fix_f_vec, false);
 }

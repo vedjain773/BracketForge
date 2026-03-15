@@ -1,7 +1,6 @@
 use crate::tournament::fixture::{Fixture, create_fixture};
 use crate::tournament::team::{Team, create_team};
 use rand::seq::SliceRandom;
-use rand::thread_rng;
 
 pub fn gen_teams(no_of_teams: usize) -> Vec<Team> {
     let mut teams_vec: Vec<Team> = Vec::new();
@@ -13,7 +12,12 @@ pub fn gen_teams(no_of_teams: usize) -> Vec<Team> {
             Err(_) => 0,
         };
 
-        let team_topush = create_team(i, 0, 0, [0, 0], [0, 0], [0, 0], [0, 0]);
+        let rating = match i32::try_from(100 - counter) {
+            Ok(v) => v,
+            Err(_) => 0,
+        };
+
+        let team_topush = create_team(i, 0, 0, [0, 0], [0, 0], [0, 0], [0, 0], rating);
 
         teams_vec.push(team_topush);
 
@@ -27,7 +31,7 @@ pub fn gen_pairings(teams_vector: Vec<Team>, lf: bool) -> Vec<Fixture> {
     let mut teams_vec = teams_vector;
     let mut fix_vec: Vec<Fixture> = Vec::new();
 
-    let mut rng = thread_rng();
+    let mut rng = rand::rng();
 
     teams_vec.shuffle(&mut rng);
 

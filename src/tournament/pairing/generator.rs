@@ -1,6 +1,32 @@
 use crate::tournament::fixture::{Fixture, create_fixture};
 use crate::tournament::team::{Team, create_team};
 use rand::seq::SliceRandom;
+use std::fs;
+
+pub fn load_teams(file_path: &str) -> Vec<Team> {
+    let mut teams_vec: Vec<Team> = Vec::new();
+
+    let contents = fs::read_to_string(file_path).expect("Could not read file");
+
+    for line in contents.lines() {
+        let columns: Vec<&str> = line.split(',').collect();
+
+        let team_to_push = create_team(
+            columns[1].parse().expect("Not a valid id"),
+            columns[2].parse().expect("Not a valid pot"),
+            columns[3].parse().expect("Not a valid country code"),
+            [0, 0],
+            [0, 0],
+            [0, 0],
+            [0, 0],
+            columns[4].parse().expect("Not a valid rating"),
+        );
+
+        teams_vec.push(team_to_push);
+    }
+
+    return teams_vec;
+}
 
 pub fn gen_teams(no_of_teams: usize) -> Vec<Team> {
     let mut teams_vec: Vec<Team> = Vec::new();

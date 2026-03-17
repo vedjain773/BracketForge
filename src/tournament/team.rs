@@ -27,3 +27,13 @@ pub fn create_team(
 
     return team;
 }
+
+pub fn assign_team(requester: i32, target: i32, teams_vec: &mut Vec<Team>) {
+    let req_team = teams_vec[(requester - 1) as usize].clone();
+    let target_team = teams_vec[(target - 1) as usize].clone();
+
+    let req_pot = req_team.pot;
+    let target_pot = target_team.pot as usize;
+
+    teams_vec[(requester - 1) as usize].league_ops[target_pot][]
+}

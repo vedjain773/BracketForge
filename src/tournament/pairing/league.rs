@@ -6,6 +6,10 @@ fn team_needs_pot(team: &Team, pot: usize) -> bool {
     return team.league_ops[pot][0] == 0 || team.league_ops[pot][1] == 0;
 }
 
+fn is_slot_empty(team: &Team, pot: usize) -> bool {
+    return team.league_ops[pot][0] == 0 || team.league_ops[pot][1] == 0;
+}
+
 fn team_is_complete(team: &Team) -> bool {
     for pot_ops in team.league_ops {
         if pot_ops[0] == 0 || pot_ops[1] == 0 {
@@ -40,5 +44,70 @@ fn reset_all_teams(teams: &mut Vec<Team>) {
             pot_ops[0] = 0;
             pot_ops[1] = 0;
         }
+    }
+}
+
+fn is_valid_pair(a: usize, b: usize, teams: &Vec<Team>) -> bool {
+    if a == b {
+        return false;
+    }
+
+    let team_a = &teams[a];
+    let team_b = &teams[b];
+
+    let pot_a = team_a.pot as usize;
+    let id_a = team_a.id;
+
+    let pot_b = team_b.pot as usize;
+    let id_b = team_b.id;
+
+    if already_played(team_a, id_b) {
+        return false;
+    } else if already_played(team_b, id_a) {
+        return false;
+    }
+
+    if !team_needs_pot(team_a, pot_b) || !team_needs_pot(team_b, pot_a) {
+        return false;
+    }
+
+    if team_a.country_code == team_b.country_code {
+        return false;
+    }
+
+    if !is_slot_empty(team_a, pot_b) || !is_slot_empty(team_b, pot_a) {
+        return false;
+    }
+
+    return true;
+}
+
+fn get_candidates(team_id: usize, pot: usize, teams: &Vec<Team>) -> Vec<usize> {
+    let mut id_vec: Vec<usize> = Vec::new();
+
+    for team in teams {
+        if team.pot as usize == pot {
+            if is_valid_pair(team_id, team.id as usize, teams) {
+                id_vec.push(team.id as usize);
+            }
+        }
+    }
+
+    return id_vec;
+}
+
+fn assign_match(a: usize, b: usize, teams: &mut Vec<Team>) {
+    let (left, right) = if a > b {
+        teams.split_at_mut(a)
+    } else {
+        teams.split_at_mut(b)
+    };
+
+    if a > b {
+        add_opponent(&mut left[b], right[0].id, right[0].pot as usize);
+        add_opponent(&mut right[0], left[b].id, left[b].pot as usize);
+    } else {
+        add_opponent(&mut left[a], right[0].id, right[0].pot as usize);
+        add_opponent(&mut right[0], left[a].id, left[a].pot as usize);
     }
 }

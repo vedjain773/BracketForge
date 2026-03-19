@@ -1,36 +1,36 @@
-Paris,1,1,4,91
-Real Madrid,2,1,1,94
-Man City,3,1,0,94
-Bayern Munchen,4,1,2,92
-Liverpool,5,1,0,91
-Inter,6,1,3,90
-Chelsea,7,1,0,88
-Dortmund,8,1,2,88
-Barcelona,9,1,1,91
-Arsenal,10,2,0,90
-Leverkusen,11,2,2,89
-Atletico Madrid,12,2,1,89
-Benfica,13,2,6,87
-Atlanta,14,2,3,86
-Villareal,15,2,1,86
-Juventus,16,2,3,88
-FrankFurt,17,2,2,85
-Club Brugge,18,2,7,83
-Tottenham,19,3,0,87
-PSV,20,3,5,85
-Ajax,21,3,5,84
-Napoli,22,3,3,87
-Sporting,23,3,6,85
-Olympiacos,24,3,10,82
-Slavia Praha,25,3,9,81
-Bodo Glimt,26,3,11,80
-Marseille,27,3,4,84
-Copenhagen,28,4,12,79
-Monaco,29,4,4,85
-Galatasray,30,4,13,84
-Union SG,31,4,7,81
-Qarabag,32,4,14,78
-Athletic,33,4,1,86
-Newcastle,34,4,0,87
-Pafos,35,4,15,76
-Kairat Almaty,36,4,16,75
+Paris,0,0,4,91
+Real Madrid,1,0,1,94
+Man City,2,0,0,94
+Bayern Munchen,3,0,2,92
+Liverpool,4,0,0,91
+Inter,5,0,3,90
+Chelsea,6,0,0,88
+Dortmund,7,0,2,88
+Barcelona,8,0,1,91
+Arsenal,9,1,0,90
+Leverkusen,10,1,2,89
+Atletico Madrid,11,1,1,89
+Benfica,12,1,6,87
+Atlanta,13,1,3,86
+Villareal,14,1,1,86
+Juventus,15,1,3,88
+FrankFurt,16,1,2,85
+Club Brugge,17,1,7,83
+Tottenham,18,2,0,87
+PSV,19,2,5,85
+Ajax,20,2,5,84
+Napoli,21,2,3,87
+Sporting,22,2,6,85
+Olympiacos,23,2,10,82
+Slavia Praha,24,2,9,81
+Bodo Glimt,25,2,11,80
+Marseille,26,2,4,84
+Copenhagen,27,3,12,79
+Monaco,28,3,4,85
+Galatasray,29,3,13,84
+Union SG,30,3,7,81
+Qarabag,31,3,14,78
+Athletic,32,3,1,86
+Newcastle,33,3,0,87
+Pafos,34,3,15,76
+Kairat Almaty,35,3,16,75

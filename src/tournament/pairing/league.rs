@@ -3,16 +3,26 @@ use crate::tournament::team::Team;
 use rand::seq::SliceRandom;
 
 fn team_needs_pot(team: &Team, pot: usize) -> bool {
-    return team.league_ops[pot][0] == 0 || team.league_ops[pot][1] == 0;
+    return team.league_ops[pot][0] == -1 || team.league_ops[pot][1] == -1;
 }
 
 fn is_slot_empty(team: &Team, pot: usize) -> bool {
-    return team.league_ops[pot][0] == 0 || team.league_ops[pot][1] == 0;
+    return team.league_ops[pot][0] == -1 || team.league_ops[pot][1] == -1;
+}
+
+fn team_is_empty(team: &Team) -> bool {
+    for pot_ops in team.league_ops {
+        if pot_ops[0] != -1 || pot_ops[1] != -1 {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 fn team_is_complete(team: &Team) -> bool {
     for pot_ops in team.league_ops {
-        if pot_ops[0] == 0 || pot_ops[1] == 0 {
+        if pot_ops[0] == -1 || pot_ops[1] == -1 {
             return false;
         }
     }
@@ -21,7 +31,7 @@ fn team_is_complete(team: &Team) -> bool {
 }
 
 fn add_opponent(team: &mut Team, opponent_id: i32, pot: usize) {
-    if team.league_ops[pot][0] == 0 {
+    if team.league_ops[pot][0] == -1 {
         team.league_ops[pot][0] = opponent_id;
     } else {
         team.league_ops[pot][1] = opponent_id;
@@ -41,8 +51,8 @@ fn already_played(team: &Team, opponent_id: i32) -> bool {
 fn reset_all_teams(teams: &mut Vec<Team>) {
     for team in teams {
         for pot_ops in &mut team.league_ops {
-            pot_ops[0] = 0;
-            pot_ops[1] = 0;
+            pot_ops[0] = -1;
+            pot_ops[1] = -1;
         }
     }
 }
@@ -109,5 +119,67 @@ fn assign_match(a: usize, b: usize, teams: &mut Vec<Team>) {
     } else {
         add_opponent(&mut left[a], right[0].id, right[0].pot as usize);
         add_opponent(&mut right[0], left[a].id, left[a].pot as usize);
+    }
+}
+
+fn select_team(teams: &Vec<Team>) -> usize {
+    for team in teams {
+        if !team_is_empty(team) {
+            return team.id as usize;
+        }
+    }
+
+    return teams[0].id as usize;
+}
+
+fn select_pot(team: &Team) -> usize {
+    for pot in 0..4 {
+        if team.league_ops[pot][0] == -1 || team.league_ops[pot][1] == -1 {
+            return pot as usize;
+        }
+    }
+
+    return 0 as usize;
+}
+
+fn is_schedule_complete(teams: &Vec<Team>) -> bool {
+    for team in teams {
+        if !team_is_complete(team) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+fn assign_next_match(teams: &mut Vec<Team>) -> bool {
+    let team_id = select_team(teams);
+    let pot = select_pot(&teams[team_id]);
+
+    let mut candidates = get_candidates(team_id, pot, teams);
+
+    if candidates.is_empty() {
+        return false;
+    }
+
+    let mut rng = rand::rng();
+
+    candidates.shuffle(&mut rng);
+
+    let opp_id = candidates[0];
+
+    assign_match(team_id, opp_id, teams);
+
+    println!("{:#?}", teams[team_id]);
+    println!("{:#?}", teams[opp_id]);
+
+    return true;
+}
+
+pub fn league_scheduler(teams: &mut Vec<Team>) {
+    reset_all_teams(teams);
+
+    while !is_schedule_complete(teams) {
+        assign_next_match(teams);
     }
 }

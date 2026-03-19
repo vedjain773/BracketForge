@@ -1,3 +1,7 @@
+use std::fmt;
+use std::fmt::Debug;
+use std::fmt::Formatter;
+
 #[derive(Clone)]
 pub struct Team {
     pub(crate) id: i32,
@@ -5,6 +9,26 @@ pub struct Team {
     pub(crate) country_code: i32,
     pub(crate) league_ops: [[i32; 2]; 4],
     pub(crate) rating: i32,
+}
+
+impl Debug for Team {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "Team {{id: {}, pot: {}, cc: {}, ops: [{}, {}, {}, {}, {}, {}, {}, {}] }}",
+            self.id,
+            self.pot,
+            self.country_code,
+            self.league_ops[0][0],
+            self.league_ops[0][1],
+            self.league_ops[1][0],
+            self.league_ops[1][1],
+            self.league_ops[2][0],
+            self.league_ops[2][1],
+            self.league_ops[3][0],
+            self.league_ops[3][1]
+        )
+    }
 }
 
 pub fn create_team(

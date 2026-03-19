@@ -15,10 +15,10 @@ pub fn load_teams(file_path: &str) -> Vec<Team> {
             columns[1].parse().expect("Not a valid id"),
             columns[2].parse().expect("Not a valid pot"),
             columns[3].parse().expect("Not a valid country code"),
-            [0, 0],
-            [0, 0],
-            [0, 0],
-            [0, 0],
+            [-1, -1],
+            [-1, -1],
+            [-1, -1],
+            [-1, -1],
             columns[4].parse().expect("Not a valid rating"),
         );
 

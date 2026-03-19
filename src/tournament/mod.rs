@@ -3,9 +3,17 @@ pub mod pairing;
 pub mod team;
 
 use crate::tournament::fixture::Fixture;
-use crate::tournament::pairing::generator::{gen_pairings, gen_teams, print_fixtures};
+use crate::tournament::pairing::generator::{gen_pairings, gen_teams, load_teams};
 use crate::tournament::pairing::simulator::simulate_phase;
 use crate::tournament::team::Team;
+
+use crate::tournament::pairing::league::{self, league_scheduler};
+
+pub fn simulate_league_phase() {
+    let mut teams = load_teams("./data.txt");
+
+    league_scheduler(&mut teams);
+}
 
 pub fn simulate_knockout_phase() {
     println!("\nRound of 16:");

@@ -106,7 +106,7 @@ pub fn simulate_phase(fix_vec: Vec<Fixture>, lt: bool) -> Vec<Team> {
                 1 => phase_winners.push(fix_vec[counter].team1.clone()),
                 4 => phase_winners.push(fix_vec[counter].team2.clone()),
 
-                other => {}
+                _other => {}
             }
 
             counter += 2;
@@ -119,7 +119,7 @@ pub fn simulate_phase(fix_vec: Vec<Fixture>, lt: bool) -> Vec<Team> {
                 1 => phase_winners.push(result.fixture.team1.clone()),
                 2 => phase_winners.push(result.fixture.team2.clone()),
 
-                other => {
+                _other => {
                     let rnd = rand::rng().random_range(1..=2);
 
                     if rnd == 1 {

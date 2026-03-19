@@ -1,4 +1,5 @@
-use crate::tournament::fixture::Fixture;
+use std::usize::{self, MIN};
+
 use crate::tournament::team::Team;
 use rand::seq::SliceRandom;
 
@@ -8,16 +9,6 @@ fn team_needs_pot(team: &Team, pot: usize) -> bool {
 
 fn is_slot_empty(team: &Team, pot: usize) -> bool {
     return team.league_ops[pot][0] == -1 || team.league_ops[pot][1] == -1;
-}
-
-fn team_is_empty(team: &Team) -> bool {
-    for pot_ops in team.league_ops {
-        if pot_ops[0] != -1 || pot_ops[1] != -1 {
-            return false;
-        }
-    }
-
-    return true;
 }
 
 fn team_is_complete(team: &Team) -> bool {
@@ -123,13 +114,28 @@ fn assign_match(a: usize, b: usize, teams: &mut Vec<Team>) {
 }
 
 fn select_team(teams: &Vec<Team>) -> usize {
+    let mut ref_count = usize::MAX;
+    let mut team_id: usize = MIN;
+
     for team in teams {
-        if !team_is_empty(team) {
+        if team_is_complete(team) {
+            continue;
+        }
+
+        let pot = select_pot(team);
+        let count = get_candidates(team.id as usize, pot, teams).len();
+
+        if count == 0 {
             return team.id as usize;
+        }
+
+        if count < ref_count {
+            ref_count = count;
+            team_id = team.id as usize;
         }
     }
 
-    return teams[0].id as usize;
+    return team_id;
 }
 
 fn select_pot(team: &Team) -> usize {
@@ -156,6 +162,7 @@ fn assign_next_match(teams: &mut Vec<Team>) -> bool {
     let team_id = select_team(teams);
     let pot = select_pot(&teams[team_id]);
 
+    println!("Searching candidates for: {team_id}");
     let mut candidates = get_candidates(team_id, pot, teams);
 
     if candidates.is_empty() {
@@ -170,16 +177,19 @@ fn assign_next_match(teams: &mut Vec<Team>) -> bool {
 
     assign_match(team_id, opp_id, teams);
 
-    println!("{:#?}", teams[team_id]);
-    println!("{:#?}", teams[opp_id]);
-
     return true;
 }
 
-pub fn league_scheduler(teams: &mut Vec<Team>) {
+pub fn league_scheduler(teams: &mut Vec<Team>) -> bool {
     reset_all_teams(teams);
 
     while !is_schedule_complete(teams) {
-        assign_next_match(teams);
+        let res = assign_next_match(teams);
+
+        if !res {
+            return false;
+        }
     }
+
+    return true;
 }

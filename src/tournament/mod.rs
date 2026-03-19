@@ -7,12 +7,22 @@ use crate::tournament::pairing::generator::{gen_pairings, gen_teams, load_teams}
 use crate::tournament::pairing::simulator::simulate_phase;
 use crate::tournament::team::Team;
 
-use crate::tournament::pairing::league::{self, league_scheduler};
+use crate::tournament::pairing::league::league_scheduler;
 
 pub fn simulate_league_phase() {
     let mut teams = load_teams("./data.txt");
 
-    league_scheduler(&mut teams);
+    let res = league_scheduler(&mut teams);
+
+    if res {
+        println!("Success");
+    } else {
+        println!("Failed");
+    }
+
+    for team in teams {
+        println!("{:#?}", team);
+    }
 }
 
 pub fn simulate_knockout_phase() {
@@ -31,5 +41,5 @@ pub fn simulate_knockout_phase() {
 
     println!("\nFinals:");
     let fix_f_vec: Vec<Fixture> = gen_pairings(f_teams, false);
-    let c_team: Vec<Team> = simulate_phase(fix_f_vec, false);
+    let _c_team: Vec<Team> = simulate_phase(fix_f_vec, false);
 }

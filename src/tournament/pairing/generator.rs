@@ -12,6 +12,7 @@ pub fn load_teams(file_path: &str) -> Vec<Team> {
         let columns: Vec<&str> = line.split(',').collect();
 
         let team_to_push = create_team(
+            String::from(columns[0]),
             columns[1].parse().expect("Not a valid id"),
             columns[2].parse().expect("Not a valid pot"),
             columns[3].parse().expect("Not a valid country code"),
@@ -43,7 +44,17 @@ pub fn gen_teams(no_of_teams: usize) -> Vec<Team> {
             Err(_) => 0,
         };
 
-        let team_topush = create_team(i, 0, 0, [0, 0], [0, 0], [0, 0], [0, 0], rating);
+        let team_topush = create_team(
+            String::from("Team"),
+            i,
+            0,
+            0,
+            [0, 0],
+            [0, 0],
+            [0, 0],
+            [0, 0],
+            rating,
+        );
 
         teams_vec.push(team_topush);
 

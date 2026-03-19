@@ -4,6 +4,7 @@ use std::fmt::Formatter;
 
 #[derive(Clone)]
 pub struct Team {
+    pub(crate) name: String,
     pub(crate) id: i32,
     pub(crate) pot: i32,
     pub(crate) country_code: i32,
@@ -15,7 +16,8 @@ impl Debug for Team {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         write!(
             f,
-            "Team {{id: {}, pot: {}, cc: {}, ops: [{}, {}, {}, {}, {}, {}, {}, {}] }}",
+            "{}  {{id: {}, pot: {}, cc: {}, ops: [{}, {}, {}, {}, {}, {}, {}, {}] }}",
+            self.name,
             self.id,
             self.pot,
             self.country_code,
@@ -32,6 +34,7 @@ impl Debug for Team {
 }
 
 pub fn create_team(
+    name: String,
     id: i32,
     pot: i32,
     cc: i32,
@@ -42,6 +45,7 @@ pub fn create_team(
     rating: i32,
 ) -> Team {
     let team = Team {
+        name: name,
         id: id,
         pot: pot,
         country_code: cc,
